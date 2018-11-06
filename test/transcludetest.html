@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+<script src="angular.js"></script>
+  <meta charset="utf-8">
+  <title>Angular tips</title>
+</head>
+<body ng-controller="MainCtrl">
+  <person header="header">
+  	<!-- 用户可以自定义指令里边的内容 -->
+    <h2>{{header}}</h2>
+    <p>Hello, I am {{person.name}} and,</p>
+    <p>I am a {{person.profession}}</p>
+    <p>inner scope id {{$id}},parent id {{$parent.$id}} </p>
+  </person>
+  <script type="text/javascript">
+  	angular.module('app', [])
+
+.controller('MainCtrl', function($scope) {
+  $scope.person = {
+    name: 'John Doe',
+    profession: 'Fake name'
+  };
+
+  $scope.header = 'Person';
+  console.log("controller's scope id = " + $scope.$id);
+})
+
+.directive('person', function() {
+  return {
+    restrict: 'EA',
+    scope: {
+       header: '='
+    },
+    transclude:true,
+    template: '<div ng-transclude></div>',
+    link: function(scope, element, attrs, controller, transclude) {
+      scope.person = {
+        name: 'Directive Joe',
+        profession: 'Scope guy'
+      };
+
+      scope.header = 'Directive\'s header';
+
+      // transclude(scope, function(clone, innerScope){
+      // 	element.append(clone);
+      // });
+      console.log("person directive scope id = " +scope.$id + " ,parent scope id =" + scope.$parent.$id);
+    }
+  };
+});
+  </script>
+</body>
+</html>

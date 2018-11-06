@@ -1688,7 +1688,7 @@ var NODE_TYPE_DOCUMENT_FRAGMENT = 11;
  *
  * Interface for configuring angular {@link angular.module modules}.
  */
-
+//生成module方法
 function setupModuleLoader(window) {
 
   var $injectorMinErr = minErr('$injector');
@@ -1698,13 +1698,16 @@ function setupModuleLoader(window) {
     return obj[name] || (obj[name] = factory());
   }
 
+  //确保angular的存在
   var angular = ensure(window, 'angular', Object);
 
   // We need to expose `angular.$$minErr` to modules such as `ngResource` that reference it during bootstrap
   angular.$$minErr = angular.$$minErr || minErr;
 
+  //通过angular暴露module方法
   return ensure(angular, 'module', function() {
     /** @type {Object.<string, angular.Module>} */
+    //modules的容器
     var modules = {};
 
     /**
@@ -23442,6 +23445,8 @@ var ngIfDirective = ['$animate', function($animate) {
     restrict: 'A',
     $$tlb: true,
     link: function($scope, $element, $attr, ctrl, $transclude) {
+        console.log($scope.$id);
+        debugger;
         var block, childScope, previousElements;
         $scope.$watch($attr.ngIf, function ngIfWatchAction(value) {
 
