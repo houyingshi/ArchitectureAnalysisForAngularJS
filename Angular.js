@@ -26049,16 +26049,19 @@ var styleDirective = valueFn({
   terminal: false
 });
 
+//只能启动一次
   if (window.angular.bootstrap) {
     //AngularJS is already loaded, so we can return here...
     console.log('WARNING: Tried to load angular more than once.');
     return;
   }
 
+//绑定jquery
   //try to bind to jquery now so that one can write jqLite(document).ready()
   //but we will rebind on bootstrap again.
   bindJQuery();
 
+  //将public api绑定到angular上
   publishExternalAPI(angular);
 
   jqLite(document).ready(function() {
