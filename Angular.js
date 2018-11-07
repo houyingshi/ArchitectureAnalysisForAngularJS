@@ -1267,6 +1267,7 @@ function getNgAttribute(element, ngAttr) {
  </example>
  *
  * Using `ngStrictDi`, you would see something like this:
+ *ngStrictDi要求依赖的参数需要显示的声明
  *
  <example ng-app-included="true">
    <file name="index.html">
@@ -23370,12 +23371,14 @@ forEach(
  * {expression}. If the expression assigned to `ngIf` evaluates to a false
  * value then the element is removed from the DOM, otherwise a clone of the
  * element is reinserted into the DOM.
+ *如果表达式为false，则移除相应的元素
  *
  * `ngIf` differs from `ngShow` and `ngHide` in that `ngIf` completely removes and recreates the
  * element in the DOM rather than changing its visibility via the `display` css property.  A common
  * case when this difference is significant is when using css selectors that rely on an element's
  * position within the DOM, such as the `:first-child` or `:last-child` pseudo-classes.
  *
+ *ngif为true，都会新建一个子scope，ngif为false，则会销毁scope,这个scope是非隔离的
  * Note that when an element is removed using `ngIf` its scope is destroyed and a new scope
  * is created when the element is restored.  The scope created within `ngIf` inherits from
  * its parent scope using
@@ -23384,6 +23387,7 @@ forEach(
  * a javascript primitive defined in the parent scope. In this case any modifications made to the
  * variable within the child scope will override (hide) the value in the parent scope.
  *
+ *ngif使用编译之后的元素进行创建，如果后续进行了修改，则会丢失
  * Also, `ngIf` recreates elements using their compiled state. An example of this behavior
  * is if an element's class attribute is directly modified after it's compiled, using something like
  * jQuery's `.addClass()` method, and the element is later removed. When `ngIf` recreates the element
@@ -23448,12 +23452,14 @@ var ngIfDirective = ['$animate', function($animate) {
         console.log($scope.$id);
         debugger;
         var block, childScope, previousElements;
+        //监控ngif的值
         $scope.$watch($attr.ngIf, function ngIfWatchAction(value) {
-
+          //如果ngif的值为true
           if (value) {
-            if (!childScope) {
+            if (!childScope) {//如果不存在子scope，则创建子scope,此scope会继承父scope
               $transclude(function(clone, newScope) {
                 childScope = newScope;
+                //在后边添加注释元素
                 clone[clone.length++] = document.createComment(' end ngIf: ' + $attr.ngIf + ' ');
                 // Note: We only need the first/last node of the cloned nodes.
                 // However, we need to keep the reference to the jqlite wrapper as it might be changed later
