@@ -23449,7 +23449,8 @@ var ngIfDirective = ['$animate', function($animate) {
     restrict: 'A',
     $$tlb: true,
     link: function($scope, $element, $attr, ctrl, $transclude) {
-        console.log($scope.$id);
+        console.log($element);
+        //$element是开头的注释元素
         debugger;
         var block, childScope, previousElements;
         //监控ngif的值
