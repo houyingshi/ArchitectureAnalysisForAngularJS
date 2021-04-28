@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>test angular js</title>
+    <script src="../../Angular.js"></script>   
+</head>
+<body ng-app="myApp" ng-controller="myController">
+<div ng-show="true">
+	<directive-life no="1">
+        <directive-life no="2">
+            <directive-life no="3">
+        
+            </directive-life>
+        </directive-life>
+    </directive-life>
+
+    <!-- <directive-life no="1">        
+    </directive-life>
+    <directive-life no="2">        
+    </directive-life>
+    <directive-life no="3">    
+    </directive-life> -->
+</div>
+
+
+<script>
+    var app = angular.module("myApp", []);
+    app.controller('myController', function($scope){
+        // $scope.name="houyingshi";
+        // console.log($scope.$id);
+        var vm = this;
+        return vm;
+    });
+
+    app.directive('directiveLife', function($log){
+        $log.info('injecting function in directiveLife.');
+
+		return {
+			restrict:'EA',
+            // transclude: false,
+            // template:'<div><h2>count: no = {{no}}</h2></div>',
+            transclude: true,
+            template:'<div><h2>count: no = {{no}}</h2><p ng-transclude></p></div>',
+            replace:true,           
+            scope:{
+                no:'='
+            },
+            compile:function(elem, iattrs){
+                $log.info('compile function in directiveLife. no is ' + iattrs.no);
+                return {
+                    pre:function($scope, elem, iattrs){
+                        $log.info('pre function in directiveLife. no from attribute is ' + iattrs.no + ', no comes from scope is ' + $scope.no);
+                    },
+                    post: function($scope, elem, iattrs){
+                        $log.info('post function in directiveLife. no from attribute is ' + iattrs.no + ', no comes from scope is ' + $scope.no);
+                    }
+
+                };
+            },
+			controller:function($scope){
+				// var name = $scope.name;
+				// console.log($scope.$id);
+                $log.info('controller function in directiveLife. no is ' + $scope.no);
+			}
+		};    	
+    });
+</script>
+</body>
+</html>
