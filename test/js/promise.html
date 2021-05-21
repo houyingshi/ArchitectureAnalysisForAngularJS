@@ -80,10 +80,10 @@
 
         let p2 = new Promise(function(resolve){
             console.log('enter p2 promise');
-            resolve(new Promise(function(resolve){
-                console.log('enter p2 inner promise');
-                resolve(2)
-            }));
+            // resolve(new Promise(function(resolve){
+            //     console.log('enter p2 inner promise');
+            //     resolve(2)
+            // }));
             resolve(2);  
             
         });
@@ -96,4 +96,10 @@
     }
 
     multiPromise();
+
+    // enter p1 promise
+    // enter p1 inner promise
+    // enter p2 promise
+    // p2 finish
+    // p1 finish
 </script>
