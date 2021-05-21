@@ -1,0 +1,99 @@
+<script>
+    function add(xp, yp){
+        return Promise.all([xp, yp])
+        .then(function(values){
+            return values[0] + values[1];
+        });
+    }
+
+    // add(fetchX(), fetchY())
+    // .then(function(sum){
+    //     console.log(sum);
+    // }, function(err){
+    //     console.log(err);
+    // });
+
+
+    // var t = {then:function(){}};
+
+    // var obj = Object.create(t);
+    // if('then' in obj){
+    //     console.log("then exists in obj");
+    // }
+
+    // Object.prototype.then = function(){};
+
+    // var strObj = {};
+    // var arrObj = [];
+    // if('then' in strObj){
+    //     console.log("then exists in strObj");
+    // }
+    // if('then' in arrObj){
+    //     console.log("then exists in arrObj");
+    // }
+
+    // then exists in obj
+    // then exists in strObj
+    // then exists in arrObj
+
+    function immediaPromise(){
+        return new Promise(function(resolve){
+            resolve('hello immedia promise.');
+        });
+    }
+
+    // immediaPromise().then(function(data){
+    //     console.log(data);
+    // });
+
+    // hello immedia promise.
+
+    // var ip = immediaPromise();
+    // ip.then(function(){
+    //     console.log(1);
+    //     ip.then(function(){
+    //         console.log(3);
+    //     });
+    // });
+
+    // ip.then(function(){
+    //     console.log(2);
+    // });
+
+    // 1
+    // 2
+    // 3
+
+    function multiPromise(){       
+
+        let p1 = new Promise(function(resolve){
+            console.log('enter p1 promise');
+            resolve(new Promise(function(resolve){
+                console.log('enter p1 inner promise');
+                resolve(1);
+            }));
+        });
+
+        p1.then(function(){
+            console.log('p1 finish');
+        })
+
+        let p2 = new Promise(function(resolve){
+            console.log('enter p2 promise');
+            resolve(new Promise(function(resolve){
+                console.log('enter p2 inner promise');
+                resolve(2)
+            }));
+            resolve(2);  
+            
+        });
+
+        
+
+        p2.then(function(){
+            console.log('p2 finish');
+        });
+    }
+
+    multiPromise();
+</script>

@@ -7,33 +7,25 @@
 </head>
 <body ng-app="myApp" ng-controller="myController">
 <div ng-show="true">
-    <input type='text' ng-model='name' />
-    <input type="button"  value="chg" ng-click="change()"/>
-    <div></div>
-	<my-dirctive person='person'></my-dirctive>
+	<input type='text' ng-model='telNo'/>
+    <input type="button" ng-click='getCode()'/>
 </div>
 
 
 <script>
     var app = angular.module("myApp", []);
     app.controller('myController', function($scope){
-        $scope.name="houyingshi";
-        // $scope.person ={
-        //     name:'hys'
-        // };
+        $scope.telNo="18701102741";
 
-        $scope.change = function(){
-            $scope.person ={name:$scope.name};
+        $scope.getCode =function(){
+            
         }
-        console.log($scope.$id);
+        
     });
 
     app.directive('myDirctive', function(){
 		return {
-            scope:{
-                person: '='
-            },
-			template:'<span> </span>',
+			template:'自定义',
 			controller:function($scope){
 				var name = $scope.name;
 				console.log($scope.$id);

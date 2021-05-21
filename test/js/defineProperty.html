@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>define property</title>    
+</head>
+<body >
+<div n>
+	
+</div>
+
+
+<script>
+// 'use strict'
+
+//   var myObj ={
+//       name:'mango'
+//   };
+
+//   descriptor = Object.getOwnPropertyDescriptor(myObj,'name');
+//   console.log(descriptor);
+
+
+
+// {
+//     "value": "mango",
+//     "writable": true,
+//     "enumerable": true,
+//     "configurable": true
+// }
+
+var myObj = {};
+Object.defineProperty(myObj, 'name', {
+    value: 'apple',
+    writable: true,
+    configurable: true,
+    enumerable: true
+});
+console.log(myObj.name)
+//apple
+
+var myObj = {};
+Object.defineProperty(myObj, 'name', {
+    value: 'apple',
+    writable: false,
+    configurable: true,
+    enumerable: true
+});
+
+myObj.name='pear'
+console.log(myObj.name)
+
+//apple
+
+
+
+var myObj = {};
+Object.defineProperty(myObj, 'name', {
+    value: 'apple',
+    writable: false,
+    configurable: true,
+    enumerable: true
+});
+
+myObj.name='pear'
+console.log(myObj.name)
+
+// defineProperty.html:50 Uncaught TypeError: Cannot assign to read only property 'name' of object '#<Object>'
+//     at defineProperty.html:50
+
+var myObj = {
+    _no:0,
+    get no(){
+        return this._no;
+    },
+    set no(val){
+        this._no = val;
+    }
+}
+
+Object.defineProperty(myObj, 'name', {
+    get:function(){
+        return 'mango' + this.no;
+    }
+});
+
+    console.log(myObj.no);
+    console.log(myObj.name)
+
+    myObj.no = 3
+    console.log(myObj.name)
+
+    // 0
+    // mango0
+    // mango3
+
+    function addPropertyControl(obj, property, syncObj, syncProperty) {
+        syncProperty = syncProperty ? syncProperty : property;
+        var dProperty = '_' + property;
+        obj[dProperty] = obj[property];
+        Object.defineProperty(obj, property, {
+            get: function () {
+                return obj[dProperty];
+            },
+            set: function (value) {
+                syncObj[syncProperty] = value;
+                obj[dProperty] = value;
+            }
+        });
+    }
+
+
+    function autoSyncAgularModelData() {
+        var sObj = $scope.dataModel;
+        var syncObj = $scope.option;
+        addPropertyControl(sObj, 'name', syncObj);
+        addPropertyControl(sObj, 'parents', syncObj);
+        addPropertyControl(sObj, 'age', syncObj);
+        addPropertyControl(sObj, 'isMan', syncObj);
+    }
+</script>
+</body>
+</html>
