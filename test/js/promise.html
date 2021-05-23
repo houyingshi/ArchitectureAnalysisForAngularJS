@@ -166,4 +166,28 @@ function promiseStatus() {
 // 	[[PromiseResult]]: 2
 
 
+function exceprionPromise(){
+    let p = new Promise(function(resolve){
+        exceptionFuncInPromise();
+        resolve(1);
+    });
+
+    var p1 = p.then(function(data){
+            console.log('promise execute sucessful');
+        },function(err){
+            console.log('promise execute error, exception is ' + err);
+            exceptionFuncInThen();
+    });
+
+    p1.then(function(data){
+        console.log('then execute sucessful');
+    }, function(err){
+        console.log('then execute error, exception is ' + err);
+    });
+}
+
+// exceprionPromise();
+
+// promise execute error, exception is ReferenceError: exceptionFuncInPromise is not defined
+// promise.html:185 then execute error, exception is ReferenceError: exceptionFuncInThen is not defined
 </script>
