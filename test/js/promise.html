@@ -95,11 +95,75 @@
         });
     }
 
-    multiPromise();
+    // multiPromise();
 
     // enter p1 promise
     // enter p1 inner promise
     // enter p2 promise
     // p2 finish
     // p1 finish
+
+function cancelPromise(delay){
+    return new Promise(function(resolve, reject){
+        setTimeout(() => {
+            reject('promise is timeout.');
+        }, delay);
+    });
+}  
+
+function longTimeTask(){
+    return new Promise(function(resolve){
+        setTimeout(() => {           
+            resolve(1);
+        }, 4000);
+    });
+}
+
+// Promise.race([longTimeTask(), cancelPromise(2000)]).then(function(data){
+//     console.log('long time task finished.');
+// },function(err){
+//     console.log('long time task is cancled.');
+// });
+ 
+// long time task is cancled.
+
+
+
+
+function promiseStatus() {
+    let p1 = Promise.resolve(1);
+    console.log(p1);
+    p2 = p1.then(function (data) {
+        console.log(data);
+        return data * 2;
+    });
+    console.log(p2);
+
+    let p3 = p2.then(function (data) {
+        console.log(data);
+        console.log(p2);
+    });
+}
+
+// promiseStatus();
+
+// Promise {<fulfilled>: 1}
+// 	__proto__: Promise
+// 	[[PromiseState]]: "fulfilled"
+// 	[[PromiseResult]]: 1
+	
+// Promise {<pending>}
+// 	__proto__: Promise
+// 	[[PromiseState]]: "pending"
+// 	[[PromiseResult]]: undefined
+	
+// 1
+// 2
+
+// Promise {<fulfilled>: 2}
+// 	__proto__: Promise
+// 	[[PromiseState]]: "fulfilled"
+// 	[[PromiseResult]]: 2
+
+
 </script>
